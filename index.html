@@ -18,11 +18,9 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #ffffff;
-            color: #1a1a1a;
             margin: 0;
             overflow-x: hidden;
         }
-        /* Estilos de la pantalla de carga */
         .loading-screen {
             position: fixed;
             inset: 0;
@@ -44,15 +42,8 @@
             animation: rotation 1s linear infinite;
             margin-bottom: 20px;
         }
-        @keyframes rotation {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .font-industrial {
-            font-family: 'Oswald', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-        }
+        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .font-industrial { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.2em; }
     </style>
 
     <script type="importmap">
@@ -70,28 +61,28 @@
 </script>
 </head>
 <body class="selection:bg-[#e67e22] selection:text-white">
-    <!-- Pantalla de carga -->
     <div id="loading" class="loading-screen">
         <div class="loader"></div>
-        <p class="font-industrial text-[10px]">Iniciando Tritón S.A.C.</p>
+        <p class="font-industrial text-[10px]">Cargando Tritón S.A.C.</p>
     </div>
 
     <div id="root"></div>
     
-    <!-- Cargador de módulos para archivos .tsx -->
-    <script type="module" src="https://esm.sh/run"></script>
+    <!-- Cargador de módulos automático para archivos .tsx -->
+    <script type="module">
+        import "https://esm.sh/run";
+    </script>
 
-    <!-- Failsafe: Asegura que la pantalla de carga desaparezca si hay algún error -->
+    <!-- Script de emergencia: Quita la pantalla azul si React tarda demasiado -->
     <script>
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const loader = document.getElementById('loading');
-                if (loader) {
-                    loader.style.opacity = '0';
-                    setTimeout(() => loader.remove(), 500);
-                }
-            }, 3000);
-        });
+        setTimeout(() => {
+            const loader = document.getElementById('loading');
+            if (loader && loader.style.opacity !== '0') {
+                console.warn('Failsafe: Forzando visibilidad.');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.remove(), 500);
+            }
+        }, 5000);
     </script>
 </body>
 </html>
