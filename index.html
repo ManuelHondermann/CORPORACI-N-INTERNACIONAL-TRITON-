@@ -29,7 +29,6 @@
         .hero-gradient {
             background: linear-gradient(90deg, rgba(10, 25, 47, 1) 0%, rgba(10, 25, 47, 0.8) 50%, rgba(10, 25, 47, 0.4) 100%);
         }
-        /* Nuevo Estilo de Logo No-Bloqueante */
         .header-logo-box {
             background: white;
             padding: 0.5rem 1.25rem;
@@ -68,18 +67,24 @@
 <script type="importmap">
 {
   "imports": {
-    "react/": "https://esm.sh/react@^19.2.4/",
     "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react-dom": "https://esm.sh/react-dom@^19.2.4",
+    "react-dom/client": "https://esm.sh/react-dom@^19.2.4/client",
     "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
   }
 }
 </script>
 </head>
 <body class="overflow-x-hidden selection:bg-[#e67e22] selection:text-white">
     <div id="root"></div>
-    <!-- Carga del punto de entrada de la aplicación -->
-    <script type="module" src="./index.tsx"></script>
+    
+    <!-- Cargador inteligente para ejecutar React/TSX en el navegador -->
+    <script type="module" src="https://esm.sh/run"></script>
+    
+    <!-- Cargamos el punto de entrada con el tipo correcto para que sea procesado -->
+    <script type="text/babel" src="./index.tsx"></script>
 </body>
 </html>
