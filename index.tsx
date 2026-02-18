@@ -26,11 +26,6 @@ if (container) {
     }
   };
 
-  // Aseguramos que el loader se oculte después del montaje
-  if (document.readyState === 'complete') {
-    setTimeout(hideLoader, 500);
-  } else {
-    window.addEventListener('load', hideLoader);
-  }
+  // Pequeño retardo para asegurar que React ha pintado los primeros elementos
+  setTimeout(hideLoader, 1000);
 }
-
