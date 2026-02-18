@@ -19,72 +19,86 @@
             font-family: 'Inter', sans-serif;
             background-color: #ffffff;
             color: #1a1a1a;
-            -webkit-font-smoothing: antialiased;
+            margin: 0;
+        }
+        /* Pantalla de Carga */
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            background: #0a192f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            color: white;
+            transition: opacity 0.6s ease-out;
+        }
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.1);
+            border-bottom-color: var(--brand-orange);
+            border-radius: 50%;
+            animation: rotation 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         .font-industrial {
             font-family: 'Oswald', sans-serif;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        .hero-gradient {
-            background: linear-gradient(90deg, rgba(10, 25, 47, 1) 0%, rgba(10, 25, 47, 0.8) 50%, rgba(10, 25, 47, 0.4) 100%);
-        }
-        .header-logo-box {
-            background: white;
-            padding: 0.5rem 1.25rem;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border-bottom: 3px solid var(--brand-orange);
-        }
-        .nav-active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: var(--brand-orange);
-        }
-        .text-readable {
-            line-height: 1.8;
-        }
-        @keyframes revealUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-reveal {
-            animation: revealUp 0.8s ease-out forwards;
-        }
-        .service-card-hover:hover {
-            transform: translateY(-5px);
-            border-color: var(--brand-orange);
+            letter-spacing: 0.2em;
         }
     </style>
 
-<script type="importmap">
+    <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom": "https://esm.sh/react-dom@^19.2.4",
-    "react-dom/client": "https://esm.sh/react-dom@^19.2.4/client",
-    "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "react-router-dom": "https://esm.sh/react-router-dom@7.1.3",
+    "lucide-react": "https://esm.sh/lucide-react@0.474.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/"
   }
 }
 </script>
 </head>
 <body class="overflow-x-hidden selection:bg-[#e67e22] selection:text-white">
+    <!-- Cargador visual para el usuario -->
+    <div id="loading" class="loading-screen">
+        <div class="loader"></div>
+        <p class="font-industrial text-xs">Cargando Tritón S.A.C.</p>
+    </div>
+
     <div id="root"></div>
     
-    <!-- Cargador inteligente para ejecutar React/TSX en el navegador -->
+    <!-- Motor de ejecución para React sin compilación -->
     <script type="module" src="https://esm.sh/run"></script>
-    
-    <!-- Cargamos el punto de entrada con el tipo correcto para que sea procesado -->
-    <script type="text/babel" src="./index.tsx"></script>
+
+    <!-- Lógica de arranque integrada -->
+    <script type="text/babel">
+        import React from 'react';
+        import ReactDOM from 'react-dom/client';
+        import App from './App.tsx';
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+        
+        // Quitamos la pantalla de carga cuando React esté listo
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loading');
+                if (loader) {
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.remove(), 600);
+                }
+            }, 800);
+        });
+    </script>
 </body>
 </html>
