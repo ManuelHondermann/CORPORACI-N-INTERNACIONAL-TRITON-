@@ -1,12 +1,12 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
+import App from './App'; // Importación sin extensión para evitar problemas de resolución
 
-const rootElement = document.getElementById('root');
+const container = document.getElementById('root');
 
-if (rootElement) {
-  const root = ReactDOM.createRoot(rootElement);
+if (container) {
+  const root = ReactDOM.createRoot(container);
   
   root.render(
     <React.StrictMode>
@@ -14,7 +14,7 @@ if (rootElement) {
     </React.StrictMode>
   );
 
-  // Función para ocultar el cargador una vez que React ha tomado el control
+  // Función para ocultar la pantalla de carga suavemente
   const hideLoader = () => {
     const loader = document.getElementById('loading');
     if (loader) {
@@ -27,11 +27,8 @@ if (rootElement) {
     }
   };
 
-  // Ocultar cargador lo más pronto posible
-  if (document.readyState === 'complete') {
-    hideLoader();
-  } else {
-    window.addEventListener('load', hideLoader);
-    setTimeout(hideLoader, 2000); // Respaldo adicional
-  }
+  // Se ejecuta tras el primer ciclo de renderizado de React
+  window.requestAnimationFrame(() => {
+    setTimeout(hideLoader, 300);
+  });
 }
