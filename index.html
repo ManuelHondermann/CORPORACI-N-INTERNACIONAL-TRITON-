@@ -32,7 +32,7 @@
             justify-content: center;
             z-index: 9999;
             color: white;
-            transition: opacity 0.6s ease-out;
+            transition: opacity 0.8s ease-out;
         }
         .loader {
             width: 50px;
@@ -69,37 +69,27 @@
 </script>
 </head>
 <body class="overflow-x-hidden selection:bg-[#e67e22] selection:text-white">
-    <!-- Cargador visual -->
+    <!-- Pantalla de carga -->
     <div id="loading" class="loading-screen">
         <div class="loader"></div>
-        <p class="font-industrial text-xs">Iniciando Tritón S.A.C.</p>
+        <p class="font-industrial text-xs">Cargando Tritón S.A.C.</p>
     </div>
 
     <div id="root"></div>
     
-    <!-- Cargador esm.sh/run para procesar JSX/TSX en el navegador -->
+    <!-- Cargador esm.sh/run que buscará automáticamente el index.tsx -->
     <script type="module" src="https://esm.sh/run"></script>
 
-    <!-- Punto de entrada integrado: Esto evita problemas de rutas de archivos externos -->
-    <script type="text/babel">
-        import React from 'react';
-        import ReactDOM from 'react-dom/client';
-        import App from './App.tsx';
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-        
-        // Ocultar el cargador cuando la aplicación esté lista
-        const hideLoader = () => {
+    <!-- Sistema de seguridad: si React no carga en 5 segundos, quitamos el velo para ver posibles errores -->
+    <script>
+        setTimeout(() => {
             const loader = document.getElementById('loading');
-            if (loader) {
+            if (loader && loader.style.opacity !== '0') {
+                console.warn('React tardando más de lo esperado. Forzando visibilidad.');
                 loader.style.opacity = '0';
-                setTimeout(() => loader.remove(), 600);
+                setTimeout(() => loader.remove(), 800);
             }
-        };
-
-        // Esperamos un momento a que React monte los componentes
-        setTimeout(hideLoader, 1500);
+        }, 5000);
     </script>
 </body>
 </html>
