@@ -22,6 +22,7 @@
             margin: 0;
             overflow-x: hidden;
         }
+        /* Estilos de la pantalla de carga */
         .loading-screen {
             position: fixed;
             inset: 0;
@@ -32,7 +33,7 @@
             justify-content: center;
             z-index: 9999;
             color: white;
-            transition: opacity 0.5s ease-out, visibility 0.5s;
+            transition: opacity 0.5s ease-out;
         }
         .loader {
             width: 40px;
@@ -69,31 +70,26 @@
 </script>
 </head>
 <body class="selection:bg-[#e67e22] selection:text-white">
-    <!-- Pantalla de carga -->
+    <!-- Pantalla de carga (se ocultará desde index.tsx o por el failsafe abajo) -->
     <div id="loading" class="loading-screen">
         <div class="loader"></div>
-        <p class="font-industrial text-[10px]">Cargando Tritón S.A.C.</p>
+        <p class="font-industrial text-[10px]">Iniciando Tritón S.A.C.</p>
     </div>
 
     <div id="root"></div>
     
-    <!-- Carga directa del punto de entrada -->
-    <script type="module" src="./index.tsx"></script>
+    <!-- Este cargador de esm.sh transformará el index.tsx automáticamente -->
+    <script type="module" src="https://esm.sh/run"></script>
 
-    <!-- Script de seguridad para evitar bloqueos por errores de JS -->
+    <!-- Failsafe: Si React falla, al menos mostramos la estructura después de 5s -->
     <script>
-        // Si después de 4 segundos el cargador sigue ahí, lo quitamos forzosamente
         setTimeout(() => {
             const loader = document.getElementById('loading');
-            if (loader && loader.style.opacity !== '0') {
-                console.warn('Sistema de seguridad: Forzando visibilidad del sitio.');
+            if (loader) {
                 loader.style.opacity = '0';
-                setTimeout(() => {
-                    loader.style.visibility = 'hidden';
-                    loader.remove();
-                }, 500);
+                setTimeout(() => loader.remove(), 500);
             }
-        }, 4000);
+        }, 5000);
     </script>
 </body>
 </html>
