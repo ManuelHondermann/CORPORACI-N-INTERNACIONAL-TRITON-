@@ -21,7 +21,7 @@
             color: #1a1a1a;
             margin: 0;
         }
-        /* Pantalla de Carga */
+        /* Pantalla de Carga Corporativa */
         .loading-screen {
             position: fixed;
             inset: 0;
@@ -69,18 +69,18 @@
 </script>
 </head>
 <body class="overflow-x-hidden selection:bg-[#e67e22] selection:text-white">
-    <!-- Cargador visual para el usuario -->
+    <!-- Cargador visual -->
     <div id="loading" class="loading-screen">
         <div class="loader"></div>
-        <p class="font-industrial text-xs">Cargando Tritón S.A.C.</p>
+        <p class="font-industrial text-xs">Iniciando Tritón S.A.C.</p>
     </div>
 
     <div id="root"></div>
     
-    <!-- Motor de ejecución para React sin compilación -->
+    <!-- Cargador esm.sh/run para procesar JSX/TSX en el navegador -->
     <script type="module" src="https://esm.sh/run"></script>
 
-    <!-- Lógica de arranque integrada -->
+    <!-- Punto de entrada integrado: Esto evita problemas de rutas de archivos externos -->
     <script type="text/babel">
         import React from 'react';
         import ReactDOM from 'react-dom/client';
@@ -89,16 +89,17 @@
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
         
-        // Quitamos la pantalla de carga cuando React esté listo
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const loader = document.getElementById('loading');
-                if (loader) {
-                    loader.style.opacity = '0';
-                    setTimeout(() => loader.remove(), 600);
-                }
-            }, 800);
-        });
+        // Ocultar el cargador cuando la aplicación esté lista
+        const hideLoader = () => {
+            const loader = document.getElementById('loading');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.remove(), 600);
+            }
+        };
+
+        // Esperamos un momento a que React monte los componentes
+        setTimeout(hideLoader, 1500);
     </script>
 </body>
 </html>
