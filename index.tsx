@@ -19,16 +19,19 @@ if (rootElement) {
     const loader = document.getElementById('loading');
     if (loader) {
       loader.style.opacity = '0';
-      setTimeout(() => loader.remove(), 500);
+      setTimeout(() => {
+        if (loader.parentNode) {
+          loader.remove();
+        }
+      }, 500);
     }
   };
 
-  // Ejecutar ocultación lo antes posible
+  // Ocultar cargador lo más pronto posible
   if (document.readyState === 'complete') {
     hideLoader();
   } else {
     window.addEventListener('load', hideLoader);
-    // Segundo intento por si el evento load no se dispara correctamente
-    setTimeout(hideLoader, 1000);
+    setTimeout(hideLoader, 2000); // Respaldo adicional
   }
 }
