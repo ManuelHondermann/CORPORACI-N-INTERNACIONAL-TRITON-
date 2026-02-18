@@ -69,20 +69,19 @@
     <div id="root"></div>
     
     <!-- Cargador de módulos automático para archivos .tsx -->
-    <script type="module">
-        import "https://esm.sh/run";
-    </script>
+    <script type="module" src="https://esm.sh/run"></script>
 
-    <!-- Script de emergencia: Quita la pantalla azul si React tarda demasiado -->
+    <!-- Failsafe: Quita la pantalla de carga si algo falla en la red -->
     <script>
-        setTimeout(() => {
-            const loader = document.getElementById('loading');
-            if (loader && loader.style.opacity !== '0') {
-                console.warn('Failsafe: Forzando visibilidad.');
-                loader.style.opacity = '0';
-                setTimeout(() => loader.remove(), 500);
-            }
-        }, 5000);
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loading');
+                if (loader && loader.style.opacity !== '0') {
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.remove(), 500);
+                }
+            }, 4000);
+        });
     </script>
 </body>
 </html>
