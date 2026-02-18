@@ -70,7 +70,7 @@
 </script>
 </head>
 <body class="selection:bg-[#e67e22] selection:text-white">
-    <!-- Pantalla de carga (se ocultará desde index.tsx o por el failsafe abajo) -->
+    <!-- Pantalla de carga -->
     <div id="loading" class="loading-screen">
         <div class="loader"></div>
         <p class="font-industrial text-[10px]">Iniciando Tritón S.A.C.</p>
@@ -78,18 +78,20 @@
 
     <div id="root"></div>
     
-    <!-- Este cargador de esm.sh transformará el index.tsx automáticamente -->
+    <!-- Cargador de módulos para archivos .tsx -->
     <script type="module" src="https://esm.sh/run"></script>
 
-    <!-- Failsafe: Si React falla, al menos mostramos la estructura después de 5s -->
+    <!-- Failsafe: Asegura que la pantalla de carga desaparezca si hay algún error -->
     <script>
-        setTimeout(() => {
-            const loader = document.getElementById('loading');
-            if (loader) {
-                loader.style.opacity = '0';
-                setTimeout(() => loader.remove(), 500);
-            }
-        }, 5000);
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loading');
+                if (loader) {
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.remove(), 500);
+                }
+            }, 3000);
+        });
     </script>
 </body>
 </html>
