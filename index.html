@@ -68,17 +68,20 @@
 
     <div id="root"></div>
     
+    <!-- Cargador de módulos automático para archivos .tsx -->
     <script type="module" src="https://esm.sh/run"></script>
 
+    <!-- Failsafe: Quita la pantalla de carga si algo falla en la red -->
     <script>
-        // Failsafe para quitar el loader si algo demora más de 6 segundos
-        setTimeout(() => {
-            const loader = document.getElementById('loading');
-            if (loader) {
-                loader.style.opacity = '0';
-                setTimeout(() => loader.remove(), 500);
-            }
-        }, 6000);
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loading');
+                if (loader && loader.style.opacity !== '0') {
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.remove(), 500);
+                }
+            }, 5000);
+        });
     </script>
 </body>
 </html>
